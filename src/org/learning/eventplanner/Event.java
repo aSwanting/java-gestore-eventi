@@ -9,7 +9,7 @@ public class Event {
     private final int totalCapacity;
     private String title;
     private LocalDate date;
-    private int booked;
+    private int booked, available;
 
     public Event(String title, LocalDate date, int totalCapacity) throws TimeTravelException {
 
@@ -20,38 +20,49 @@ public class Event {
             this.date = date;
         }
         this.totalCapacity = totalCapacity;
+        this.available = totalCapacity - booked;
 
     }
 
     // Class Methods
-    public void book() throws Exception {
-        if (booked == totalCapacity) {
-            throw new Exception("Event is at capacity");
-        } else if (date.isBefore(LocalDate.now())) {
+    public void book(int ticketCount) throws Exception {
+
+        if (date.isBefore(LocalDate.now())) {
             throw new TimeTravelException("Cannot book past event");
+
+        } else if (available == 0) {
+            throw new Exception("Event is fully booked");
+
+        } else if (ticketCount > available) {
+            throw new Exception("Unable to book, event only has " + (totalCapacity - booked) + " tickets remaining");
+
         } else {
-            booked++;
+            booked += ticketCount;
+            available -= ticketCount;
         }
+
     }
 
-    public void cancel() throws Exception {
-        if (booked == 0) {
-            throw new Exception("Nothing left to cancel");
-        } else if (date.isBefore(LocalDate.now())) {
+    public void cancel(int ticketCount) throws Exception {
+
+        if (date.isBefore(LocalDate.now())) {
             throw new TimeTravelException("Cannot cancel past event");
+
+        } else if (booked == 0) {
+            throw new Exception("There are no tickets to cancel");
+
+        } else if (booked - ticketCount < 0) {
+            throw new Exception("Unable to cancel, event only has " + (booked) + " tickets booked");
+
         } else {
-            booked--;
+            booked -= ticketCount;
+            available += ticketCount;
         }
     }
 
     @Override
     public String toString() {
-        return "Event{" +
-                "title='" + title + '\'' +
-                ", date=" + date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) +
-                ", totalCapacity=" + totalCapacity +
-                ", booked=" + booked +
-                '}';
+        return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + " - " + title;
     }
 
     // Getters and Setters
@@ -79,5 +90,7 @@ public class Event {
         return booked;
     }
 
-
+    public int getAvailable() {
+        return available;
+    }
 }
