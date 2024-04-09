@@ -64,7 +64,7 @@ public class Main {
     private static void testAddConcert() {
         try {
             Concert newConcert = new Concert("test concert", LocalDate.parse("2088-05-14"), 10, LocalTime.parse("13:00"), BigDecimal.valueOf(100));
-            System.out.println(newConcert);
+            System.out.println(newConcert.toDateTimePriceString());
             events.addEvent(newConcert);
         } catch (TimeTravelException ignored) {
         }
@@ -118,12 +118,15 @@ public class Main {
                     }
                     break;
                 default:
+                    menuOpen = false;
                     break;
             }
-            System.out.println("Tickets Booked: " + newEvent.getBooked() + "\nTickets Remaining: " + newEvent.getAvailable());
-            System.out.println("\nContinue?");
-            System.out.println("Press any key to continue or 'n' to exit:");
-            menuOpen = !scan.nextLine().equals("n");
+            if (menuOpen) {
+                System.out.println("Tickets Booked: " + newEvent.getBooked() + "\nTickets Remaining: " + newEvent.getAvailable());
+                System.out.println("\nContinue?");
+                System.out.println("Press any key to continue or 'n' to exit:");
+                menuOpen = !scan.nextLine().equals("n");
+            }
         }
     }
 }

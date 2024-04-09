@@ -23,8 +23,7 @@ public class Concert extends Event {
     }
 
     // Class Methods
-    @Override
-    public String toString() {
+    public String toDateTimePriceString() {
         return getFormattedDateTime() + " - " + getTitle() + " - " + getFormattedPrice();
     }
 
