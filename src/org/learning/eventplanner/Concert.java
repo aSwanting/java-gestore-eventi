@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Concert extends Event {
+    private final LocalDateTime dateTime;
     private LocalTime time;
-    private LocalDateTime dateTime;
     private BigDecimal price;
 
     public Concert(String title, LocalDate date, int totalCapacity, LocalTime time, BigDecimal price) throws TimeTravelException {

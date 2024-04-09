@@ -93,4 +93,5 @@ public class Event {
     public int getAvailable() {
         return available;
     }
+
 }
