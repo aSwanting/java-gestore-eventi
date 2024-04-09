@@ -14,7 +14,7 @@ public class Main {
 
     static EventProgram events;
 
-    public static void main(String[] args) throws TimeTravelException {
+    public static void main(String[] args) {
 
         // Add an event, then choose to book or cancel tickets (Milestone 1, 2)
         // eventWizard();
@@ -44,15 +44,18 @@ public class Main {
 
     }
 
-    private static EventProgram generateRandomEvents(int eventCount) throws TimeTravelException {
+    private static EventProgram generateRandomEvents(int eventCount) {
         int currentEpochDay = (int) LocalDate.now().toEpochDay();
         Random r = new Random();
         EventProgram events = new EventProgram("Event Program");
-        for (int i = 0; i < eventCount; i++) {
-            events.addEvent(new Event("event-" + i, LocalDate.ofEpochDay(r.nextInt(366) + currentEpochDay), r.nextInt(50) + 50));
+        try {
+            for (int i = 0; i < eventCount; i++) {
+                events.addEvent(new Event("event-" + i, LocalDate.ofEpochDay(r.nextInt(366) + currentEpochDay), r.nextInt(50) + 50));
+            }
+            events.addEvent(new Event("find me!-1", LocalDate.ofEpochDay(20000), 100));
+            events.addEvent(new Event("find me!-2", LocalDate.ofEpochDay(20000), 100));
+        } catch (TimeTravelException ignored) {
         }
-        events.addEvent(new Event("find me!-1", LocalDate.ofEpochDay(20000), 100));
-        events.addEvent(new Event("find me!-2", LocalDate.ofEpochDay(20000), 100));
         return events;
     }
 
