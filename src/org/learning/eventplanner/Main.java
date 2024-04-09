@@ -11,34 +11,52 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+
+    static EventProgram events;
+
     public static void main(String[] args) throws TimeTravelException {
 
+        // Add an event, then choose to book or cancel tickets (Milestone 1, 2)
+        // eventWizard();
 
-//        eventWizard();
-//        addConcert();
+        // Test the Concert class, an extension of the Event class (Milestone 3)
+        // testAddConcert();
 
-        int currentEpochDay = (int) LocalDate.now().toEpochDay();
-        Random r = new Random();
-
-        EventProgram events = new EventProgram("Event Program");
-        for (int i = 0; i < 8; i++) {
-            events.addEvent(new Event("event-" + i, LocalDate.ofEpochDay(r.nextInt(366) + currentEpochDay), r.nextInt(50) + 50));
-        }
-        events.addEvent(new Event("find me!-1", LocalDate.ofEpochDay(20000), 100));
-        events.addEvent(new Event("find me!-2", LocalDate.ofEpochDay(20000), 100));
-
-        List<Event> filteredEvents = events.searchEventByDate(LocalDate.ofEpochDay(20000));
-
+        // Generate random events and add to events ArrayList for testing (Bonus Milestone 4)
+        events = generateRandomEvents(8);
         System.out.println(events);
-        System.out.println(events.toStringSorted());
-        System.out.println("Number of events: " + events.getEventCount());
 
+        // Return a list of events on a specific date
+        LocalDate dateToSearch = LocalDate.ofEpochDay(20000);
+        List<Event> filteredEvents = events.searchEventByDate(dateToSearch);
+        System.out.println("Events on " + dateToSearch.format(DateTimeFormatter.ofPattern("dd-MM-yy")) + ": ");
+        System.out.println(filteredEvents + "\n");
+
+        // Return the number of events in the list
+        System.out.println("Number of events: " + events.getEventCount() + "\n");
+
+        // Return a String of Events sorted by date
+        System.out.println(events.toStringSorted());
+
+        // Clear Event Program
         events.clearEventProgram();
         System.out.println("Number of events: " + events.getEventCount());
 
     }
 
-    private static void addConcert() {
+    private static EventProgram generateRandomEvents(int eventCount) throws TimeTravelException {
+        int currentEpochDay = (int) LocalDate.now().toEpochDay();
+        Random r = new Random();
+        EventProgram events = new EventProgram("Event Program");
+        for (int i = 0; i < eventCount; i++) {
+            events.addEvent(new Event("event-" + i, LocalDate.ofEpochDay(r.nextInt(366) + currentEpochDay), r.nextInt(50) + 50));
+        }
+        events.addEvent(new Event("find me!-1", LocalDate.ofEpochDay(20000), 100));
+        events.addEvent(new Event("find me!-2", LocalDate.ofEpochDay(20000), 100));
+        return events;
+    }
+
+    private static void testAddConcert() {
         try {
             Concert newConcert = new Concert("test concert", LocalDate.parse("2088-05-14"), 10, LocalTime.parse("13:00"), BigDecimal.valueOf(100));
             System.out.println(newConcert);
