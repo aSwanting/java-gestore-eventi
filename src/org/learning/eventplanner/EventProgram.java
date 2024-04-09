@@ -35,7 +35,7 @@ public class EventProgram {
     }
 
     public ArrayList<Event> sortedEventList() {
-        ArrayList<Event> sortedEvents = events;
+        ArrayList<Event> sortedEvents = new ArrayList<>(events);
         sortedEvents.sort(new EventComparator());
         return sortedEvents;
     }
