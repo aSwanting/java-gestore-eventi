@@ -16,11 +16,14 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // New EventProgram
+        events = new EventProgram("Event Program");
+
         // Add an event, then choose to book or cancel tickets (Milestone 1, 2)
-        // eventWizard();
+        eventWizard();
 
         // Test the Concert class, an extension of the Event class (Milestone 3)
-        // testAddConcert();
+        testAddConcert();
 
         // Generate random events and add to events ArrayList for testing (Bonus Milestone 4)
         events = generateRandomEvents(8);
@@ -47,7 +50,6 @@ public class Main {
     private static EventProgram generateRandomEvents(int eventCount) {
         int currentEpochDay = (int) LocalDate.now().toEpochDay();
         Random r = new Random();
-        EventProgram events = new EventProgram("Event Program");
         try {
             for (int i = 0; i < eventCount; i++) {
                 events.addEvent(new Event("event-" + i, LocalDate.ofEpochDay(r.nextInt(366) + currentEpochDay), r.nextInt(50) + 50));
@@ -63,6 +65,7 @@ public class Main {
         try {
             Concert newConcert = new Concert("test concert", LocalDate.parse("2088-05-14"), 10, LocalTime.parse("13:00"), BigDecimal.valueOf(100));
             System.out.println(newConcert);
+            events.addEvent(newConcert);
         } catch (TimeTravelException ignored) {
         }
     }
@@ -86,6 +89,7 @@ public class Main {
         try {
             newEvent = new Event(name, date, capacity);
             System.out.println(newEvent);
+            events.addEvent(newEvent);
         } catch (Exception ex) {
             System.err.println("Event creation error: " + ex.getMessage());
         }
