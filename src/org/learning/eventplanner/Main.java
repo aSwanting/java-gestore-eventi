@@ -1,14 +1,32 @@
 package org.learning.eventplanner;
 
+import org.learning.eventplanner.exceptions.TimeTravelException;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+//        eventWizard();
+
+        try {
+
+            Concert newConcert = new Concert("test concert", LocalDate.parse("2088-05-14"), 10, LocalTime.parse("13:00"), BigDecimal.valueOf(100));
+            System.out.println(newConcert);
+
+        } catch (TimeTravelException ignored) {
+        }
+
+
+    }
+
+    private static void eventWizard() {
         Scanner scan = new Scanner(System.in);
-        Event e = null;
+        Event newEvent = null;
 
 //        System.out.println("Event Creation Wizard");
 //        System.out.print("Event name: ");
@@ -23,8 +41,8 @@ public class Main {
         int capacity = 20;
 
         try {
-            e = new Event(name, date, capacity);
-            System.out.println(e);
+            newEvent = new Event(name, date, capacity);
+            System.out.println(newEvent);
         } catch (Exception ex) {
             System.err.println("Event creation error: " + ex.getMessage());
         }
@@ -38,7 +56,7 @@ public class Main {
                     System.out.println("How many tickets would you like to book?");
                     ticketCount = Integer.parseInt(scan.nextLine());
                     try {
-                        e.book(ticketCount);
+                        newEvent.book(ticketCount);
                     } catch (Exception ex) {
                         System.out.println("Booking error: " + ex.getMessage());
                     }
@@ -47,7 +65,7 @@ public class Main {
                     System.out.println("How many tickets do you need to cancel?");
                     ticketCount = Integer.parseInt(scan.nextLine());
                     try {
-                        e.cancel(ticketCount);
+                        newEvent.cancel(ticketCount);
                     } catch (Exception ex) {
                         System.out.println("Booking error: " + ex.getMessage());
                     }
@@ -55,7 +73,7 @@ public class Main {
                 default:
                     break;
             }
-            System.out.println("Tickets Booked: " + e.getBooked() + "\nTickets Remaining: " + e.getAvailable());
+            System.out.println("Tickets Booked: " + newEvent.getBooked() + "\nTickets Remaining: " + newEvent.getAvailable());
             System.out.println("\nContinue?");
             System.out.println("Press any key to continue or 'n' to exit:");
             menuOpen = !scan.nextLine().equals("n");
